@@ -306,14 +306,17 @@ st.header("Top SKUs by Cases (Apr,24 - Mar,25)")
 sku_cols_for_table = [c for c in sku_cols if c in filtered_detail.columns]
 if sku_cols_for_table:
     sku_totals = filtered_detail[sku_cols_for_table].sum().sort_values(ascending=False)
+    sku_df = sku_totals.head(15).reset_index()
+    sku_df.columns = ['SKU', 'Cases']
     fig_sku = px.bar(
-        sku_totals.head(15),
-        x=sku_totals.head(15).values,
-        y=sku_totals.head(15).index,
+        sku_df,
+        x='Cases',
+        y='SKU',
         orientation="h",
         title=None,
-        labels={"x": "Cases", "y": "SKU"},
-        color_discrete_sequence=['#8e24aa']
+        labels={"Cases": "Cases", "SKU": "SKU"},
+        color='SKU',
+        color_discrete_sequence=px.colors.qualitative.Set3
     )
     fig_sku.update_layout(
         plot_bgcolor='#232526', paper_bgcolor='#232526', font_color='#fff',
