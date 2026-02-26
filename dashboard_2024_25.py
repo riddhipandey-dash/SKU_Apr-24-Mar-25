@@ -211,7 +211,7 @@ if "TOTAL AMOUNT" in totals_row.columns:
         melted = monthly_cat.reset_index().melt(id_vars="Month", var_name="Category", value_name="Cases")
         fig_cat_dist = px.bar(
             melted, x="Month", y="Cases", color="Category", barmode="stack", title=None,
-            color_discrete_sequence=px.colors.sequential.Purples_r
+            color_discrete_sequence=px.colors.qualitative.Set2
         )
         fig_cat_dist.update_layout(
             plot_bgcolor='#232526', paper_bgcolor='#232526', font_color='#fff',
