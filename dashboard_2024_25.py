@@ -211,7 +211,7 @@ if "TOTAL AMOUNT" in totals_row.columns:
         melted = monthly_cat.reset_index().melt(id_vars="Month", var_name="Category", value_name="Cases")
         fig_cat_dist = px.bar(
             melted, x="Month", y="Cases", color="Category", barmode="stack", title=None,
-            color_discrete_sequence=px.colors.qualitative.Set2
+            color_discrete_sequence=px.colors.qualitative.Pastel
         )
         fig_cat_dist.update_layout(
             plot_bgcolor='#232526', paper_bgcolor='#232526', font_color='#fff',
@@ -257,7 +257,8 @@ if not category_totals.empty:
         orientation="h",
         title=None,
         labels={"x": "Cases", "y": "Category"},
-        color_discrete_sequence=['#00b0ff']
+        color=category_totals.head(10).index,
+        color_discrete_sequence=px.colors.qualitative.Set2
     )
     fig_prod.update_layout(
         plot_bgcolor='#232526', paper_bgcolor='#232526', font_color='#fff',
@@ -275,7 +276,8 @@ if not category_totals.empty:
         orientation="h",
         title=None,
         labels={"x": "Cases", "y": "Category"},
-        color_discrete_sequence=['#ffd600']
+        color=category_totals.tail(10).index,
+        color_discrete_sequence=px.colors.qualitative.Set3
     )
     fig_prod_bottom.update_layout(
         plot_bgcolor='#232526', paper_bgcolor='#232526', font_color='#fff',
@@ -291,7 +293,7 @@ if not category_totals.empty:
         names=category_totals.index,
         hole=0.5,
         title=None,
-        color_discrete_sequence=px.colors.sequential.Purples_r
+        color_discrete_sequence=px.colors.qualitative.Pastel
     )
     fig_cat.update_layout(
         plot_bgcolor='#232526', paper_bgcolor='#232526', font_color='#fff',
@@ -389,11 +391,11 @@ if "STATE" in filtered_detail.columns and money_col:
         state = pd.DataFrame(columns=["STATE", str(money_col)])
     fig_state = px.bar(
         state,
-        x=money_col,
-        y="STATE",
-        orientation="h",
+        x="STATE",
+        y=money_col,
+        color="STATE",
         title=None,
-        color_discrete_sequence=['#43a047']
+        color_discrete_sequence=px.colors.qualitative.Set2
     )
     fig_state.update_layout(
         plot_bgcolor='#232526', paper_bgcolor='#232526', font_color='#fff',
