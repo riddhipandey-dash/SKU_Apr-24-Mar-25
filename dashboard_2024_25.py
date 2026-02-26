@@ -211,7 +211,7 @@ if "TOTAL AMOUNT" in totals_row.columns:
         melted = monthly_cat.reset_index().melt(id_vars="Month", var_name="Category", value_name="Cases")
         fig_cat_dist = px.bar(
             melted, x="Month", y="Cases", color="Category", barmode="stack", title=None,
-            color_discrete_sequence=px.colors.qualitative.Set2
+            color_discrete_sequence=px.colors.sequential.Purples_r
         )
         fig_cat_dist.update_layout(
             plot_bgcolor='#232526', paper_bgcolor='#232526', font_color='#fff',
@@ -221,7 +221,7 @@ if "TOTAL AMOUNT" in totals_row.columns:
         )
         st.markdown("<h3 style='color:black;'>Monthly Category Distribution (Apr,24 - Mar,25)</h3>", unsafe_allow_html=True)
         st.plotly_chart(fig_cat_dist, use_container_width=True, key="cat_dist")
-        st.markdown("<small>This stacked bar chart shows the monthly distribution of cases by product category, helping you identify seasonal trends and category performance over time.</small>")
+        st.markdown("This stacked bar chart shows the monthly distribution of cases by product category, helping you identify seasonal trends and category performance over time.")
 
 # --- Monthly Total Amount ---
 if money_col:
@@ -234,9 +234,9 @@ if money_col:
         fig_month = px.line(
             amount_chart_df, x="Month", y="TOTAL AMOUNT", markers=True, title=None,
             line_shape='spline',
-            color_discrete_sequence=['#ff7043']
+            color_discrete_sequence=['#00e676']
         )
-        fig_month.update_traces(line=dict(color='#ff7043', width=4), marker=dict(color='#ff7043', size=10))
+        fig_month.update_traces(line=dict(color='#00e676', width=4), marker=dict(color='#00e676', size=10))
         fig_month.update_layout(
             plot_bgcolor='#232526', paper_bgcolor='#232526', font_color='#fff',
             xaxis=dict(title_font=dict(color='#fff'), tickfont=dict(color='#fff')),
@@ -245,7 +245,7 @@ if money_col:
         )
         st.markdown("<h3 style='color:black;'>Monthly Total Amount (₹) (Apr,24 - Mar,25)</h3>", unsafe_allow_html=True)
         st.plotly_chart(fig_month, use_container_width=True, key="month")
-        st.markdown("<small>This line chart tracks the total sales amount each month, highlighting peaks and dips in revenue throughout the year.</small>")
+        st.markdown("This line chart tracks the total sales amount each month, highlighting peaks and dips in revenue throughout the year.")
 
 # --- Category Analysis ---
 category_totals = filtered_detail[category_cols].sum().sort_values(ascending=False) if category_cols else pd.Series(dtype=float)
@@ -257,7 +257,7 @@ if not category_totals.empty:
         orientation="h",
         title=None,
         labels={"x": "Cases", "y": "Category"},
-        color_discrete_sequence=['#43a047']
+        color_discrete_sequence=['#00b0ff']
     )
     fig_prod.update_layout(
         plot_bgcolor='#232526', paper_bgcolor='#232526', font_color='#fff',
@@ -267,7 +267,7 @@ if not category_totals.empty:
     )
     st.markdown("<h3 style='color:black;'>Top 10 Categories by Cases (Apr,24 - Mar,25)</h3>", unsafe_allow_html=True)
     st.plotly_chart(fig_prod, use_container_width=True, key="prod_top")
-    st.markdown("<small>These are the top 10 product categories by total cases sold, revealing your best-performing segments.</small>")
+    st.markdown("These are the top 10 product categories by total cases sold, revealing your best-performing segments.")
     fig_prod_bottom = px.bar(
         category_totals.tail(10),
         x=category_totals.tail(10).values,
@@ -275,7 +275,7 @@ if not category_totals.empty:
         orientation="h",
         title=None,
         labels={"x": "Cases", "y": "Category"},
-        color_discrete_sequence=['#8e24aa']
+        color_discrete_sequence=['#ffd600']
     )
     fig_prod_bottom.update_layout(
         plot_bgcolor='#232526', paper_bgcolor='#232526', font_color='#fff',
@@ -285,13 +285,13 @@ if not category_totals.empty:
     )
     st.markdown("<h3 style='color:black;'>Bottom 10 Categories by Cases (Apr,24 - Mar,25)</h3>", unsafe_allow_html=True)
     st.plotly_chart(fig_prod_bottom, use_container_width=True, key="prod_bottom")
-    st.markdown("<small>These are the bottom 10 product categories by total cases sold, highlighting underperforming segments that may need attention.</small>")
+    st.markdown("These are the bottom 10 product categories by total cases sold, highlighting underperforming segments that may need attention.")
     fig_cat = px.pie(
         values=category_totals.values,
         names=category_totals.index,
         hole=0.5,
         title=None,
-        color_discrete_sequence=px.colors.qualitative.Pastel
+        color_discrete_sequence=px.colors.sequential.Purples_r
     )
     fig_cat.update_layout(
         plot_bgcolor='#232526', paper_bgcolor='#232526', font_color='#fff',
@@ -299,7 +299,7 @@ if not category_totals.empty:
     )
     st.markdown("<h3 style='color:black;'>Category Share (Totals) (Apr,24 - Mar,25)</h3>", unsafe_allow_html=True)
     st.plotly_chart(fig_cat, use_container_width=True, key="cat_share")
-    st.markdown("<small>This donut chart shows the overall share of each category in total cases sold, giving a quick view of your product mix.</small>")
+    st.markdown("This donut chart shows the overall share of each category in total cases sold, giving a quick view of your product mix.")
 
 # --- Top SKUs ---
 st.header("Top SKUs by Cases (Apr,24 - Mar,25)")
@@ -313,7 +313,7 @@ if sku_cols_for_table:
         orientation="h",
         title=None,
         labels={"x": "Cases", "y": "SKU"},
-        color_discrete_sequence=['#1976d2']
+        color_discrete_sequence=['#8e24aa']
     )
     fig_sku.update_layout(
         plot_bgcolor='#232526', paper_bgcolor='#232526', font_color='#fff',
@@ -323,7 +323,7 @@ if sku_cols_for_table:
     )
     st.markdown("<h3 style='color:black;'>Top 15 SKUs by Cases (Apr,24 - Mar,25)</h3>", unsafe_allow_html=True)
     st.plotly_chart(fig_sku, use_container_width=True, key="sku_top")
-    st.markdown("<small>This bar chart displays the top 15 SKUs by cases sold, helping you spot your star products.</small>")
+    st.markdown("This bar chart displays the top 15 SKUs by cases sold, helping you spot your star products.")
 else:
     st.info("No SKU columns detected. Add SKU columns or confirm your column naming.")
 
@@ -350,9 +350,9 @@ fig_new_sku = px.line(
     markers=True,
     title=None,
     line_shape='spline',
-    color_discrete_sequence=['#fbc02d']
+    color_discrete_sequence=['#ffd600']
 )
-fig_new_sku.update_traces(line=dict(color='#fbc02d', width=4), marker=dict(color='#fbc02d', size=10))
+fig_new_sku.update_traces(line=dict(color='#ffd600', width=4), marker=dict(color='#ffd600', size=10))
 fig_new_sku.update_layout(
     plot_bgcolor='#232526', paper_bgcolor='#232526', font_color='#fff',
     xaxis=dict(title_font=dict(color='#fff'), tickfont=dict(color='#fff')),
@@ -361,7 +361,7 @@ fig_new_sku.update_layout(
 )
 st.markdown("<h3 style='color:black;'>New SKUs Introduced Each Month (Apr,24 - Mar,25)</h3>", unsafe_allow_html=True)
 st.plotly_chart(fig_new_sku, use_container_width=True, key="sku_new")
-st.markdown("<small>This line chart shows how many new SKUs were introduced each month, indicating innovation and portfolio expansion.</small>")
+st.markdown("This line chart shows how many new SKUs were introduced each month, indicating innovation and portfolio expansion.")
 sku_intro_names = []
 seen_skus = set()
 for month in monthly_sku_presence.index:
@@ -373,7 +373,7 @@ st.markdown("**Summary of SKUs Introduced Each Month:**")
 for month, skus in sku_intro_names:
     if skus:
         st.markdown(f"- **{month}:** {', '.join(skus)}")
-st.markdown("<small>Above is a month-wise list of new SKUs introduced, useful for tracking launches and adoption.</small>")
+st.markdown("Above is a month-wise list of new SKUs introduced, useful for tracking launches and adoption.")
 
 # --- State-wise Performance ---
 st.header("State-wise Performance (Apr,24 - Mar,25)")
@@ -390,7 +390,7 @@ if "STATE" in filtered_detail.columns and money_col:
         y="STATE",
         orientation="h",
         title=None,
-        color_discrete_sequence=['#ff7043']
+        color_discrete_sequence=['#43a047']
     )
     fig_state.update_layout(
         plot_bgcolor='#232526', paper_bgcolor='#232526', font_color='#fff',
@@ -400,4 +400,4 @@ if "STATE" in filtered_detail.columns and money_col:
     )
     st.markdown("<h3 style='color:black;'>Top States by Total Amount (₹) (Apr,24 - Mar,25)</h3>", unsafe_allow_html=True)
     st.plotly_chart(fig_state, use_container_width=True, key="state")
-    st.markdown("<small>This horizontal bar chart ranks states by total sales amount, helping you identify your strongest and weakest markets.</small>")
+    st.markdown("This horizontal bar chart ranks states by total sales amount, helping you identify your strongest and weakest markets.")
