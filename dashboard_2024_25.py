@@ -386,6 +386,11 @@ if "STATE" in filtered_detail.columns and money_col:
     # Ensure money_col is a string and column exists
     if isinstance(money_col, str) and money_col in filtered_detail.columns:
         state = filtered_detail.groupby("STATE", as_index=False)[money_col].sum()
+        # Remove or label unrecognizable/missing state names
+        state['STATE'] = state['STATE'].replace('', np.nan)
+       # state = state.dropna(subset=["STATE"])
+        # Optionally, you could also filter out states with names like 'nan', 'None', etc.
+        state = state[~state['STATE'].astype(str).str.lower().isin(['nan', 'none', 'unnamed', 'unknown', 'null'])]
     #    state = state.sort_values(by="TOTAL AMOUNT", ascending=False).head(12)
     else:
         state = pd.DataFrame(columns=["STATE", str(money_col)])
